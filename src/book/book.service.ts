@@ -6,6 +6,7 @@ import { from, Observable } from 'rxjs';
 import { ignoreElements, map } from 'rxjs/operators';
 import { BookDto } from './model/book.dto';
 import { Book } from './model/book.model';
+import { BookQuery } from './model/book.query';
 import { BOOK_MODEL } from './model/book.schema';
 
 @Injectable()
@@ -17,9 +18,28 @@ export class BookService {
     return from(newBook.save()).pipe(ignoreElements());
   }
 
-  findAll(reqQuery: object): Observable<BookDto[]> {
-    return from(this.bookModel.find().exec()).pipe(
+  findAll(bookQuery: BookQuery): Observable<BookDto[]> {
+    let condition = {};
+    if (bookQuery.searchQuery) {
+      condition = { $text: { $search: bookQuery.searchQuery } };
+    }
+    const query = this.bookModel
+      .find(condition)
+      .skip(bookQuery.offset)
+      .limit(bookQuery.limit);
+
+    return from(query.exec()).pipe(
       map(it => plainToClass(BookDto, it, { excludeExtraneousValues: true })),
     );
+  }
+
+  editBook(bookDto: BookDto) {
+    const q = this.bookModel.updateOne(bookDto.getIdQuery(), bookDto);
+    return from(q.exec()).pipe(ignoreElements());
+  }
+
+  deleteBook(bookDto: BookDto) {
+    const q = this.bookModel.deleteOne(bookDto.getIdQuery());
+    return from(q.exec()).pipe(ignoreElements());
   }
 }

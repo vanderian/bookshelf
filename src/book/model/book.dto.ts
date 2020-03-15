@@ -29,4 +29,8 @@ export class BookDto {
   @Expose()
   @Type(() => String)
   readonly authors: [string];
+
+  public getIdQuery(): object {
+    return { title: this.title };
+  }
 }

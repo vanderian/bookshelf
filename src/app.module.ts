@@ -6,7 +6,7 @@ import { CoreModule } from './core/core.module';
 
 const routes: Routes = [
   {
-    path: '/v1/book',
+    path: '/v1/books',
     children: [BookModule],
   },
 ];
@@ -16,6 +16,7 @@ const routes: Routes = [
     MongooseModule.forRoot('mongodb://localhost/nest', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useFindAndModify: false,
     }),
     RouterModule.forRoutes(routes),
     CoreModule,

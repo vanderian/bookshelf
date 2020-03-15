@@ -1,4 +1,9 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
+import {
+  CallHandler,
+  ExecutionContext,
+  Injectable,
+  NestInterceptor,
+} from '@nestjs/common';
 import { serialize } from 'class-transformer';
 import { FastifyRequest } from 'fastify';
 import { Observable } from 'rxjs';
@@ -15,8 +20,8 @@ export class LoggingInterceptor implements NestInterceptor {
     const ctx = `${request.raw.method} ${request.raw.url}`;
     this.logger.debug(
       `p:${JSON.stringify(request.params)}` +
-      ` q:${JSON.stringify(request.query)}` +
-      ` b:${JSON.stringify(request.body)}`,
+        ` q:${JSON.stringify(request.query)}` +
+        ` b:${JSON.stringify(request.body)}`,
       ctx,
     );
 
@@ -25,7 +30,8 @@ export class LoggingInterceptor implements NestInterceptor {
       tap(
         it => this.logger.debug(`${serialize(it)}`, ctx),
         err => this.logger.error(err.message, err.stack, ctx),
-        () => this.logger.log(`${statusCode} ${Date.now() - now}ms`, ctx)),
+        () => this.logger.log(`${statusCode} ${Date.now() - now}ms`, ctx),
+      ),
     );
   }
 }

@@ -1,44 +1,44 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Put,
+  Query,
+  UsePipes,
+} from '@nestjs/common';
 import { Observable } from 'rxjs';
+import { CheckBookExistsPipe } from '../core/pipe/check-book-exists-pipe.service';
+import { CheckBookNotFoundPipe } from '../core/pipe/check-book-not-found-pipe.service';
 import { BookService } from './book.service';
 import { BookDto } from './model/book.dto';
+import { BookQuery } from './model/book.query';
 
 @Controller('/')
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
   @Get()
-  findAll(@Query() reqQuery): Observable<BookDto[]> {
-    return this.bookService.findAll(reqQuery);
+  findAll(@Query() bookQuery: BookQuery): Observable<BookDto[]> {
+    return this.bookService.findAll(bookQuery);
   }
 
   @Post()
-  addBook(@Body() addBook: BookDto) {
-    return this.bookService.addBook(addBook);
+  @UsePipes(CheckBookExistsPipe)
+  addBook(@Body() bookDto: BookDto) {
+    return this.bookService.addBook(bookDto);
   }
 
-  /*
-    @Get('/:bookId')
-    findBook(@Req() request): Observable<Book> {
-      return request.book;
-    }
+  @Put()
+  @UsePipes(CheckBookNotFoundPipe)
+  editBook(@Body() bookDto: BookDto) {
+    return this.bookService.editBook(bookDto);
+  }
 
-    @Put('/:bookId')
-    editBook(@Req() request): Observable<Book> {
-      return this.bookService.editBook(request.body, request.book);
-    }
-
-    @Patch('/:bookId')
-    patchBook(@Req() request): Observable<Book> {
-      if (request.body._id) {
-        delete request.body._id;
-      }
-      return this.bookService.editBook(request.body, request.book);
-    }
-
-    @Delete('/:bookId')
-    deleteBook(@Req() request): Observable<string> {
-      return this.bookService.deleteBook(request.book);
-    }
-  */
+  @Delete()
+  @UsePipes(CheckBookNotFoundPipe)
+  deleteBook(@Body() bookDto: BookDto) {
+    return this.bookService.deleteBook(bookDto);
+  }
 }
