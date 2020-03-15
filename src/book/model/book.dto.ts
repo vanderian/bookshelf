@@ -1,12 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { Expose, Type } from 'class-transformer';
+import { IsNotEmpty, IsString } from 'class-validator';
 
-export class AddBookDto {
+export class BookDto {
   @ApiProperty({
     description: 'a book name',
     example: 'A Book',
   })
   @IsString()
+  @IsNotEmpty()
+  @Expose()
   readonly title: string;
 
   @ApiProperty({
@@ -14,6 +17,7 @@ export class AddBookDto {
     example: 'a book about a Book',
   })
   @IsString()
+  @Expose()
   readonly description: string;
 
   @ApiProperty({
@@ -22,5 +26,7 @@ export class AddBookDto {
     example: ['Foo Bar', 'John Johnson'],
   })
   @IsString({ each: true })
+  @Expose()
+  @Type(() => String)
   readonly authors: [string];
 }
