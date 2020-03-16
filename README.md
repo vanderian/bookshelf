@@ -31,7 +31,7 @@ Sample Bookshelf REST Api based on [Nest](https://github.com/nestjs/nest) framew
 ## Installation
 
 ```bash
-$ yarn install
+$ npm install
 ```
 
 ## Running the app
