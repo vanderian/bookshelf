@@ -15,7 +15,7 @@ import { BookService } from './book.service';
 import { BookDto } from './model/book.dto';
 import { BookQuery } from './model/book.query';
 
-@Controller('/')
+@Controller()
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
