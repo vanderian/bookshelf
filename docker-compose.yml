@@ -2,8 +2,19 @@ version: "3"
 
 services:
   mongodb:
+    container_name: "db"
     image: mongo:latest
     environment:
       - MONGODB_DATABASE="nest"
+    expose:
+      - 27017
+
+  api:
+    container_name: "api"
+    build: .
+    environment:
+      - DB_HOST=db
     ports:
-      - 27017:27017
+      - 3000:3000
+    depends_on:
+      - mongodb

@@ -11,9 +11,12 @@ const routes: Routes = [
   },
 ];
 
+// configs or .env should be preferable
+const DB_HOST = `${process.env.DB_HOST || 'localhost'}`;
+
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/nest', {
+    MongooseModule.forRoot(`mongodb://${DB_HOST}/nest`, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
