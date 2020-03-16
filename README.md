@@ -26,7 +26,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Sample Bookshelf REST Api based on [Nest](https://github.com/nestjs/nest) framework.
 
 ## Installation
 
@@ -37,6 +37,9 @@ $ npm install
 ## Running the app
 
 ```bash
+# local mongo db
+docker run -d -p 27017:27017 --name mongodb mongo
+
 # development
 $ npm run start
 
@@ -45,6 +48,11 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+```
+
+## Running the app inside docker
+```bash
+docker-compose up --build
 ```
 
 ## Test
@@ -64,12 +72,8 @@ $ npm run test:cov
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-## Stay in touch
+Nest is [MIT licensed](LICENSE).
 
 - Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
 - Website - [https://nestjs.com](https://nestjs.com/)
 - Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-  Nest is [MIT licensed](LICENSE).
